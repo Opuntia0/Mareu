@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <TextView
+        android:text="@string/nouvelle_r_union"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:id="@+id/TV"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/ET_meeting_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom de la réunion"
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:id="@+id/ET_list_attendees"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Participants"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sélectionner l'heure de la réunion :"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        />
+    <TimePicker
+        android:id="@+id/ET_hour_of_meeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sélectionner la salle :"
+        android:layout_marginStart="5dp"
+        />
+
+    <Spinner
+    android:id="@+id/ET_place_of_meeting"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Lieu de la réunion"
+    android:layout_marginTop="8dp" />
+</LinearLayout>
