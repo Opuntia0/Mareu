@@ -16,7 +16,8 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class MeetingListInstrumentedTest {
+    // TODO Instrumented test
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -24,4 +25,5 @@ public class ExampleInstrumentedTest {
 
         assertEquals("mathilde.petit.mareu", appContext.getPackageName());
     }
+
 }

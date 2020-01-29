@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import com.google.android.material.textfield.TextInputLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,6 +52,9 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
     // Form
     String toastEmpty = "Les champs ne peuvent pas être vide !";
 
+    // Dialog
+    public AlertDialog dialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +75,92 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                displayAlertDialog();
+            }
 
-                final AlertDialog dialog = new AlertDialog.Builder(ListMeetingActivity.this)
+        });
+    }
+
+    public void displayAlertDialog() {
+        // OLD ALERT
+        // AlertDialog
+        final AlertDialog.Builder mBuilder =
+                new AlertDialog.Builder(ListMeetingActivity.this);
+            mBuilder.setPositiveButton("Ajouter", null);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_new_meeting, null);
+
+        // Nom & Lieu
+        final EditText mName = mView.findViewById(R.id.ET_meeting_name);
+        final EditText mAttendees = mView.findViewById(R.id.ET_list_attendees);
+
+        // Heure
+        final TimePicker mHour = mView.findViewById(R.id.ET_hour_of_meeting);
+        mHour.setIs24HourView(true);
+
+        // Lieu
+        final Spinner mPlace = mView.findViewById(R.id.ET_place_of_meeting);
+        ArrayAdapter<String> adapter_s = new ArrayAdapter<String>(ListMeetingActivity.this,
+                android.R.layout.simple_spinner_item, places);
+        adapter_s.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mPlace.setAdapter(adapter_s);
+
+        // Bouton validation
+        mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onPositiveButtonClick(mName, mPlace, mAttendees, mHour);
+            }
+        });
+
+        // AlertDialog
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void onPositiveButtonClick(EditText mName, Spinner mPlace, EditText mAttendees, TimePicker mHour) {
+        // Data
+        String name = mName.getText().toString();
+        String attendees = mAttendees.getText().toString();
+
+        if (name.isEmpty() || attendees.isEmpty()) {
+            // Toast
+            //Toast.makeText(getApplicationContext(), toastEmpty, Toast.LENGTH_LONG).show();
+
+            if (name.isEmpty()) {
+                mName.setError("Entrer le nom de la réunion");
+            }
+
+            if (mAttendees.getText().toString().isEmpty()) {
+                mAttendees.setError("Entrer les participants");
+            }
+        }
+
+        else {
+            // Timepicker format HHhMM
+            String time = mHour.getHour()+"h"+mHour.getMinute();
+
+            // Ajouter la nouvelle réunion
+            Meeting m = new Meeting(name,time, mPlace.getSelectedItem().toString(), attendees);
+            meetings.add(m);
+
+            //dialog.dismiss();
+            adapter.updateList(meetings);
+        }
+    }
+
+    @Override
+    public void onClickDelete(Meeting meeting) {
+        adapter.onClickDelete(meeting);
+    }
+}
+
+
+
+// SOLUTION 2
+                /*final AlertDialog dialog = new AlertDialog.Builder(ListMeetingActivity.this)
                         .setView(v)
                         .setTitle("mAlertDialog")
                         .setPositiveButton("ok", null)
@@ -108,7 +196,6 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
                             @RequiresApi(api = Build.VERSION_CODES.M)
                             @Override
                             public void onClick(View view) {
-                                // TODO Do something
                                 if (mName.getText().toString().isEmpty() || mAttendees.getText().toString().isEmpty()) {
                                     // Toast
                                     Toast.makeText(getApplicationContext(), toastEmpty, Toast.LENGTH_LONG).show();
@@ -133,63 +220,4 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
                         });
                     }
                 });
-                dialog.show();
-                // OLD ALERT
-                // AlertDialog
-                /*AlertDialog.Builder mBuilder =
-                        new AlertDialog.Builder(ListMeetingActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.dialog_new_meeting, null);
-
-                // Nom & Lieu
-                final EditText mName = mView.findViewById(R.id.ET_meeting_name);
-                final EditText mAttendees = mView.findViewById(R.id.ET_list_attendees);
-
-                // Heure
-                final TimePicker mHour = mView.findViewById(R.id.ET_hour_of_meeting);
-                mHour.setIs24HourView(true);
-
-                // Lieu
-                final Spinner mPlace = mView.findViewById(R.id.ET_place_of_meeting);
-                ArrayAdapter<String> adapter_s = new ArrayAdapter<String>(ListMeetingActivity.this,
-                        android.R.layout.simple_spinner_item, places);
-                adapter_s.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mPlace.setAdapter(adapter_s);
-
-                // Bouton validation
-                mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mName.getText().toString().isEmpty() || mAttendees.getText().toString().isEmpty()) {
-                            // Toast
-                            Toast.makeText(getApplicationContext(), toastEmpty, Toast.LENGTH_LONG).show();
-
-                        } else {
-                            // Timepicker format HHhMM
-                            String time = mHour.getHour()+"h"+mHour.getMinute();
-
-                            // Ajouter la nouvelle réunion
-                            Meeting m = new Meeting(mName.getText().toString(),
-                                    time, mPlace.getSelectedItem().toString(),
-                                    mAttendees.getText().toString());
-                            meetings.add(m);
-
-                            //dialog.dismiss();
-                            adapter.updateList(meetings);
-                        }
-                    }
-                });
-
-                // AlertDialog
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
                 dialog.show();*/
-            } 
-        });
-    }
-
-    @Override
-    public void onClickDelete(Meeting meeting) {
-        adapter.onClickDelete(meeting);
-    }
-}

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:padding="8dp"
+    >
 
     <TextView
         android:text="@string/nouvelle_r_union"
@@ -14,7 +17,7 @@
         android:id="@+id/TV"
         android:textStyle="bold"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/ET_meeting_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,12 +25,13 @@
         android:layout_marginTop="8dp"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/ET_list_attendees"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Participants"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        />
 
     <TextView
         android:layout_width="match_parent"

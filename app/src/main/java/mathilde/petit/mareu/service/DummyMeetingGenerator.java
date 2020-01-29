@@ -6,9 +6,9 @@ import java.util.List;
 
 import mathilde.petit.mareu.model.Meeting;
 
-abstract class DummyMeetingGenerator {
+public abstract class DummyMeetingGenerator {
 
-    private static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
+    public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
             new Meeting("Réunion A", "14h00", "Peach",
                     "maxence@lamoze.com, alex@lamoze.com, mathilde@lamoze.com"),
             new Meeting("Réunion B", "16h00", "Mario",

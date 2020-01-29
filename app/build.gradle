@@ -26,7 +26,7 @@ dependencies {
     implementation "com.google.android.material:material:$android_material_version"
 
     // Added
-    implementation "com.android.support:design:$android_appcompat_version"
+    //implementation "com.android.support:design:26.1.0"
 
 
     //noinspection GradleCompatible
