@@ -11,6 +11,8 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import mathilde.petit.mareu.R;
@@ -54,6 +58,42 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
 
     // Dialog
     public AlertDialog dialog = null;
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // De A à Z
+            case R.id.filter_subitem_1 :
+                Collections.sort(meetings, new Meeting.MeetingAZComparator());
+                break;
+
+            // De Z à A
+            case R.id.filter_subitem_2 :
+                Collections.sort(meetings, new Meeting.MeetingZAComparator());
+                break;
+
+            // Date croissante
+            case R.id.filter_subitem_3 :
+                Collections.sort(meetings, new Meeting.MeetingOldComparator());
+                break;
+
+            // Date décroissante
+            case R.id.filter_subitem_4 :
+                Collections.sort(meetings, new Meeting.MeetingRecentComparator());
+                break;
+        }
+
+        adapter.updateList(meetings);
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +166,7 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
         String attendees = mAttendees.getText().toString();
 
         if (name.isEmpty() || attendees.isEmpty()) {
+            // TODO remove dismiss
             // Toast
             //Toast.makeText(getApplicationContext(), toastEmpty, Toast.LENGTH_LONG).show();
 

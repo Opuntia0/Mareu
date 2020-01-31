@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="filter_list">
+        <menu>
+            <item
+                android:id="@+id/filter_subitem_1"
+                android:title="A à Z"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/filter_subitem_2"
+                android:title="Z à A"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/filter_subitem_3"
+                android:title="Date croissante"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/filter_subitem_4"
+                android:title="Date décroissante"
+                app:showAsAction="never|withText" />
+        </menu>
+    </item>
+
+</menu>
