@@ -1,0 +1,9 @@
+Bonjour,
+J'ai choisi de développer le projet Maréu en Java pour les raisons suivantes. Je pense que la taille de l'entreprise 
+et les ressources que nous pouvons allouer au projet, à sa création et son évolution, son plus adaptées à un projet Java.
+Les développeurs Java sont bien plus répandus et moins couteux que les développeurs Kotlin, qui est un langage très récent.
+En effet le Java est un laguage très utilisé et bien qu'il ne soit pas aussi performant que Kotlin, il fera entièrement l'affaire.
+Le projet sera également plus facile à faire évoluer.
+Toutes les fonctionnalités nécessaires au projet sont réalisables avec Java.
+
+Cordialement
