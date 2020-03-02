@@ -1,12 +1,12 @@
-package com.openclassrooms.entrevoisins.utils;
+package mathilde.petit.mareu.utils;
 
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.view.View;
 
-import com.openclassrooms.entrevoisins.R;
-
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import org.hamcrest.Matcher;
+
+import mathilde.petit.mareu.R;
 
 public class ItemListClicViewAction implements ViewAction {
     @Override
@@ -21,7 +21,7 @@ public class ItemListClicViewAction implements ViewAction {
 
     @Override
     public void perform(UiController uiController, View view) {
-        View button = view.findViewById(R.id.item_bloc_neighbour);
+        View button = view.findViewById(R.id.item_bloc_meeting);
         // Maybe check for null
         button.performClick();
     }

@@ -14,9 +14,9 @@ public abstract class DummyMeetingGenerator {
             new Meeting("Réunion B", "16h00", "Mario",
                     "paul@lamoze.com, viviane@lamoze.com\",\n" +
                             "            \"jean@lamoze.com"),
-            new Meeting("Réunion C", "19h00", "Luigi",
+            new Meeting("Réunion C", "19h30", "Luigi",
                     "amandine@lamoze.com, luc@lamoze.com, robert@lamoze.com"),
-            new Meeting("Réunion C", "19h00", "Luigi",
+            new Meeting("Réunion D", "19h00", "Luigi",
                     "amandine@lamoze.com")
     );
 

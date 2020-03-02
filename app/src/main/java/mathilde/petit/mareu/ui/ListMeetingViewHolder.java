@@ -23,7 +23,6 @@ public class ListMeetingViewHolder extends RecyclerView.ViewHolder {
     public ListMeetingViewHolder(@NonNull View itemView, @NonNull final MeetingListAdapter.Listener deleteMeetingListener) {
         super(itemView);
 
-        // elements du layout
         imgItem = itemView.findViewById(R.id.item_list_round);
         placeMeeting = itemView.findViewById(R.id.item_list_info);
         listAttendees = itemView.findViewById(R.id.item_list_attendees);
@@ -56,13 +55,6 @@ public class ListMeetingViewHolder extends RecyclerView.ViewHolder {
         }
 
         rootView.setTag(meeting);
-/*
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(meeting.getColor());
-
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-*/
-
         deleteButton.setTag(meeting);
     }
 }

@@ -1,8 +1,6 @@
 package mathilde.petit.mareu.model;
 
 import java.util.Comparator;
-import java.util.List;
-
 /**
  * Model object representing a Meeting
  */
@@ -52,7 +50,7 @@ public class Meeting {
     public static class MeetingAZComparator implements Comparator<Meeting> {
         @Override
         public int compare(Meeting o1, Meeting o2) {
-            return o1.topic.compareTo(o2.topic);
+            return o1.topic.toLowerCase().compareTo(o2.topic.toLowerCase());
         }
     }
 
@@ -60,7 +58,7 @@ public class Meeting {
     public static class MeetingZAComparator implements Comparator<Meeting> {
         @Override
         public int compare(Meeting o1, Meeting o2) {
-            return o1.topic.compareTo(o2.topic);
+            return o2.topic.toLowerCase().compareTo(o1.topic.toLowerCase());
         }
     }
 
@@ -68,7 +66,7 @@ public class Meeting {
     public static class MeetingRecentComparator implements Comparator<Meeting> {
         @Override
         public int compare(Meeting o1, Meeting o2) {
-            return 0;
+            return (o2.getHours()*60 + o2.getMinutes()) - (o1.getHours()*60 + o1.getMinutes());
         }
     }
 
@@ -76,8 +74,18 @@ public class Meeting {
     public static class MeetingOldComparator implements Comparator<Meeting> {
         @Override
         public int compare(Meeting o1, Meeting o2) {
-            return 0;
+            return (o1.getHours()*60 + o1.getMinutes()) - (o2.getHours()*60 + o2.getMinutes());
         }
+    }
+
+    public int getHours(){
+        String[] data = this.hour.split("h");
+        return Integer.parseInt(data[0]);
+    }
+
+    public int getMinutes(){
+        String[] data = this.hour.split("h");
+        return Integer.parseInt(data[1]);
     }
 
     public String getMeetingFullName_toString() {

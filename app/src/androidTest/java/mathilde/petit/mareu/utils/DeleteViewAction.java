@@ -1,10 +1,13 @@
-package com.openclassrooms.entrevoisins.utils;
+package mathilde.petit.mareu.utils;
 
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.view.View;
-import com.openclassrooms.entrevoisins.R;
+
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+
 import org.hamcrest.Matcher;
+
+import mathilde.petit.mareu.R;
 
 public class DeleteViewAction implements ViewAction {
     @Override

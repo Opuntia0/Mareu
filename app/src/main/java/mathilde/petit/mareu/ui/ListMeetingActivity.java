@@ -43,7 +43,6 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
     private MeetingApiService mApiService;
     @NonNull
     private List<Meeting> meetings = new ArrayList<>();
-    // TODO remove magic values
     private String[] places = {"Peach", "Mario", "Luigi"};
 
     // View
@@ -52,9 +51,6 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
     // RV
     RecyclerView mRecyclerViewView;
     private MeetingListAdapter adapter;
-
-    // Form
-    String toastEmpty = "Les champs ne peuvent pas être vide !";
 
     // Dialog
     public AlertDialog dialog = null;
@@ -69,22 +65,15 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // De A à Z
             case R.id.filter_subitem_1 :
                 Collections.sort(meetings, new Meeting.MeetingAZComparator());
                 break;
-
-            // De Z à A
             case R.id.filter_subitem_2 :
                 Collections.sort(meetings, new Meeting.MeetingZAComparator());
                 break;
-
-            // Date croissante
             case R.id.filter_subitem_3 :
                 Collections.sort(meetings, new Meeting.MeetingOldComparator());
                 break;
-
-            // Date décroissante
             case R.id.filter_subitem_4 :
                 Collections.sort(meetings, new Meeting.MeetingRecentComparator());
                 break;
@@ -122,11 +111,6 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
     }
 
     public void displayAlertDialog() {
-        // OLD ALERT
-        // AlertDialog
-        final AlertDialog.Builder mBuilder =
-                new AlertDialog.Builder(ListMeetingActivity.this);
-            mBuilder.setPositiveButton("Ajouter", null);
         View mView = getLayoutInflater().inflate(R.layout.dialog_new_meeting, null);
 
         // Nom & Lieu
@@ -144,7 +128,10 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
         adapter_s.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPlace.setAdapter(adapter_s);
 
-        // Bouton validation
+        // AlertDialog
+        final AlertDialog.Builder mBuilder =
+                new AlertDialog.Builder(ListMeetingActivity.this);
+
         mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -153,23 +140,27 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
             }
         });
 
-        // AlertDialog
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+        this.dialog = dialog;
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onPositiveButtonClick(mName, mPlace, mAttendees, mHour);
+            }
+        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     public void onPositiveButtonClick(EditText mName, Spinner mPlace, EditText mAttendees, TimePicker mHour) {
         // Data
         String name = mName.getText().toString();
         String attendees = mAttendees.getText().toString();
 
         if (name.isEmpty() || attendees.isEmpty()) {
-            // TODO remove dismiss
-            // Toast
-            //Toast.makeText(getApplicationContext(), toastEmpty, Toast.LENGTH_LONG).show();
-
             if (name.isEmpty()) {
                 mName.setError("Entrer le nom de la réunion");
             }
@@ -181,13 +172,18 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
 
         else {
             // Timepicker format HHhMM
-            String time = mHour.getHour()+"h"+mHour.getMinute();
+            String time = "";
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                time = mHour.getHour() + "h" + mHour.getMinute();
+            }
+            else{
+                time = mHour.getCurrentHour() + "h" + mHour.getCurrentMinute();
+            }
 
             // Ajouter la nouvelle réunion
             Meeting m = new Meeting(name,time, mPlace.getSelectedItem().toString(), attendees);
             meetings.add(m);
-
-            //dialog.dismiss();
+            dialog.dismiss();
             adapter.updateList(meetings);
         }
     }
@@ -197,68 +193,3 @@ public class ListMeetingActivity extends AppCompatActivity implements MeetingLis
         adapter.onClickDelete(meeting);
     }
 }
-
-
-
-// SOLUTION 2
-                /*final AlertDialog dialog = new AlertDialog.Builder(ListMeetingActivity.this)
-                        .setView(v)
-                        .setTitle("mAlertDialog")
-                        .setPositiveButton("ok", null)
-                        .setNegativeButton("cancel", null)
-                        .create();
-
-                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-                    @Override
-                    public void onShow(DialogInterface dialogInterface) {
-
-                        View mView = getLayoutInflater().inflate(R.layout.dialog_new_meeting, null);
-
-                        // Nom & Lieu
-                        final EditText mName = mView.findViewById(R.id.ET_meeting_name);
-                        final EditText mAttendees = mView.findViewById(R.id.ET_list_attendees);
-
-                        // Heure
-                        final TimePicker mHour = mView.findViewById(R.id.ET_hour_of_meeting);
-                        mHour.setIs24HourView(true);
-
-                        // Lieu
-                        final Spinner mPlace = mView.findViewById(R.id.ET_place_of_meeting);
-                        ArrayAdapter<String> adapter_s = new ArrayAdapter<String>(ListMeetingActivity.this,
-                                android.R.layout.simple_spinner_item, places);
-                        adapter_s.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        mPlace.setAdapter(adapter_s);
-
-
-                        Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                        button.setOnClickListener(new View.OnClickListener() {
-
-                            @RequiresApi(api = Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(View view) {
-                                if (mName.getText().toString().isEmpty() || mAttendees.getText().toString().isEmpty()) {
-                                    // Toast
-                                    Toast.makeText(getApplicationContext(), toastEmpty, Toast.LENGTH_LONG).show();
-
-                                } else {
-                                    // Timepicker format HHhMM
-                                    String time = mHour.getHour()+"h"+mHour.getMinute();
-
-                                    // Ajouter la nouvelle réunion
-                                    Meeting m = new Meeting(mName.getText().toString(),
-                                            time, mPlace.getSelectedItem().toString(),
-                                            mAttendees.getText().toString());
-                                    meetings.add(m);
-
-                                    //dialog.dismiss();
-                                    adapter.updateList(meetings);
-
-                                    //Dismiss once everything is OK.
-                                    dialog.dismiss();
-                                }
-                            }
-                        });
-                    }
-                });
-                dialog.show();*/
